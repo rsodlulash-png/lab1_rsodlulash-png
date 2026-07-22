@@ -38,15 +38,54 @@ def evaluate_grades(data):
     """
     print("\n--- Processing Grades ---")
     
-    # TODO: a) Check if all scores are percentage based (0-100)
-    # TODO: b) Validate total weights (Total=100, Summative=40, Formative=60)
+    # Check if all scores are percentage based (0-100)
+    for assignment in data:
+    	score = assignment["score"]
+
+    if score < 0 or score > 100:
+        print("Error: Invalid score found.")
+        return
+    # Validate total weights (Total=100, Summative=40, Formative=60)
+    total_weight = 0
+    formative_weight = 0
+    summative_weight = 0
+    for assignment in data:
+
+    	weight = assignment["weight"]
+
+    	total_weight += weight
+
+    	if assignment["group"] == "Formative":
+        	formative_weight += weight
+
+    	elif assignment["group"] == "Summative":
+        	summative_weight += weight
+
+    if total_weight != 100:
+    	print("Error: Total weight must equal 100.")
+    	return
+
+    if formative_weight != 60:
+    	print("Error: Formative weight must equal 60.")
+    	return
+
+    if summative_weight != 40:
+    	print("Error: Summative weight must equal 40.")
+    	return
+    #Weight validation
+    total_grade = 0
+    for assignment in data:
+
+    	weighted_mark = (assignment["score"] * assignment["weight"]) / 100
+
+    	total_grade += weighted_mark
+    print("Total Grade:", total_grade)
     # TODO: c) Calculate the Final Grade and GPA
     # TODO: d) Determine Pass/Fail status (>= 50% in BOTH categories)
     # TODO: e) Check for failed formative assignments (< 50%)
     #          and determine which one(s) have the highest weight for resubmission.
     # TODO: f) Print the final decision (PASSED / FAILED) and resubmission options
-    for assignment in data:
-    	print(assignment)
+    
 if __name__ == "__main__":
     # 1. Load the data
     course_data = load_csv_data()
