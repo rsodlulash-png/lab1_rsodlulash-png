@@ -80,8 +80,36 @@ def evaluate_grades(data):
 
     	total_grade += weighted_mark
     print("Total Grade:", total_grade)
-    # TODO: c) Calculate the Final Grade and GPA
-    # TODO: d) Determine Pass/Fail status (>= 50% in BOTH categories)
+   
+    #Calulation of GPA
+    gpa = (total_grade / 100) * 5
+    print("Final Grade:", total_grade)
+    print("GPA:", round(gpa, 2))
+
+    # Calculate the Final Grade and GPA
+    
+    formative_marks = 0
+    summative_marks = 0
+   
+    for assignment in data:
+
+    	mark = assignment["score"] * assignment["weight"] / 100
+
+    	if assignment["group"] == "Formative":
+        	formative_marks += mark
+
+    	else:
+        	summative_marks += mark
+    #converting the summative and formative into percentages
+    formative_percentage = (formative_marks / 60) * 100
+    summative_percentage = (summative_marks / 40) * 100
+
+    # Determine Pass/Fail status (>= 50% in BOTH categories)
+    if formative_percentage >= 50 and summative_percentage >= 50:
+    	print("Status: PASSED")
+    else:
+    	print("Status: FAILED")
+
     # TODO: e) Check for failed formative assignments (< 50%)
     #          and determine which one(s) have the highest weight for resubmission.
     # TODO: f) Print the final decision (PASSED / FAILED) and resubmission options
